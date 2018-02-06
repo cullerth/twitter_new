@@ -1,5 +1,6 @@
 from requests_oauthlib import OAuth1Session
 import secrets
+import json
 
 client_key = secrets.api_key
 client_secret = secrets.api_secret
@@ -83,9 +84,16 @@ oauth = OAuth1Session(client_key,
                           resource_owner_key=resource_owner_key,
                           resource_owner_secret=resource_owner_secret)
 r = oauth.get(protected_url)
-print (r.text)
+#print (r.text)
 
 protected_url = 'https://api.twitter.com/1.1/search/tweets.json'
 params = {'q':'food'}
 r = oauth.get(protected_url, params=params)
 print (r.text)#twitter-oauth.py
+
+python_obj = json.loads(r.text)
+print(python_obj)
+
+print(type(python_obj))
+for item in python_obj:
+    print(item["text"])
